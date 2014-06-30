@@ -1,0 +1,1 @@
+require File.expand_path('../../lib/user_agent', __FILE__)
