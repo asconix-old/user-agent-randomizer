@@ -26,7 +26,7 @@ namespace :user_agents do
   		{type: "cloud_platform", url: "http://www.useragentstring.com/pages/Cloud%20Platformlist/"},
   		{type: "other", url: "http://www.useragentstring.com/pages/Otherlist/"}
   	]
-  	File.open("lib/data/user_agents.yml", 'w') { |file| file.write("---\n") }
+  	File.open("data/user_agents.yml", 'w') { |file| file.write("---\n") }
   	urls.each do |target|
   		user_agents = []
   		puts "Fetching User-Agent strings for '#{target[:type]}' ..."
@@ -34,7 +34,7 @@ namespace :user_agents do
   		doc.xpath("//div[@id='liste']/ul/li/a").each do |line|
   			user_agents << line.content.strip
   		end
-  		File.open("lib/data/user_agents.yml", 'a') do |file|
+  		File.open("data/user_agents.yml", 'a') do |file|
   			file.write("#{target[:type]}:\n")
   			user_agents.each do |ua|
   				file.write "  - '#{ua}'\n"
