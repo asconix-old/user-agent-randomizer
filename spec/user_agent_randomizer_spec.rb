@@ -1,20 +1,25 @@
 require 'spec_helper'
 
-describe UserAgentRandomizer do
+describe 'UserAgentRandomizer::UserAgent' do
 
-  it "is a String" do
-    ua = UserAgentRandomizer.fetch("desktop_browser").string
-    expect(ua).to be_a String
+  it "contains HTTP User-Agent string" do
+    ua = UserAgentRandomizer::UserAgent.fetch(type: "desktop_browser")
+    expect(ua.string).to be_a String
   end
 
   it "has a specific type" do
-    ua = UserAgentRandomizer.fetch("desktop_browser").type
-    expect(ua).to eq("desktop_browser")
+    ua = UserAgentRandomizer::UserAgent.fetch(type: "desktop_browser")
+    expect(ua.type).to eq("desktop_browser")
   end
 
   it "has any type" do
-  	ua = UserAgentRandomizer.fetch().type.size
-  	expect(ua).to be > 0
+    ua = UserAgentRandomizer::UserAgent.fetch()
+    expect(ua.type.size).to be > 0
+  end
+
+  it "returns a random browser if no type is specified" do
+    ua = UserAgentRandomizer::UserAgent.fetch()
+    expect(UserAgentRandomizer.user_agent_types).to include(ua.type)
   end
 
 end

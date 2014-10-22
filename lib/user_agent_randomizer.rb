@@ -1,22 +1,34 @@
+require 'user_agent_randomizer/version'
+require 'user_agent_randomizer/user_agent'
+
 require 'yaml'
 
-class UserAgentRandomizer
+module UserAgentRandomizer
+  extend self
 
-  USER_AGENTS = YAML.load_file(
-    File.expand_path("../user_agents.yml", Gem.datadir("user_agent_randomizer"))
-  )
-  USER_AGENT_TYPES = USER_AGENTS.keys
-
-  attr_reader :type, :string
-
-  def initialize(type, string)
-    @type = type
-    @string = string
+  def parameter(*names)
+    names.each do |name|
+      attr_accessor name
+      define_method name do |*values|
+        value = values.first
+        value ? self.send("#{name}=", value) : instance_variable_get("@#{name}")
+      end
+    end
   end
 
-  def self.fetch(type = nil)
-    type = USER_AGENT_TYPES.include?(type) ? type : USER_AGENT_TYPES.sample
-    new(type, USER_AGENTS[type].sample)
+  def config(&block)
+    instance_eval &block
   end
+end
 
+UserAgentRandomizer.config do
+  parameter :user_agent_types
+  parameter :user_agents
+end
+
+UserAgentRandomizer.config do
+  user_agent_types ["crawler", "desktop_browser", "mobile_browser", "console",
+      "offline_browser", "email_client", "link_checker", "email_collector",
+      "validator", "feed_reader", "library", "cloud_platform", "other"]
+  user_agents YAML.load_file(File.expand_path("data/user_agents.yml", Gem.datadir("user_agent_randomizer")))
 end
