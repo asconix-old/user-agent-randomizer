@@ -6,7 +6,7 @@ require 'user_agent_randomizer/version'
 Gem::Specification.new do |spec|
   spec.name          = "user-agent-randomizer"
   spec.version       = UserAgentRandomizer::VERSION
-  spec.date          = "2014-06-27"
+  spec.date          = "2014-10-22"
   spec.authors       = ["Christoph Pilka"]
   spec.email         = ["c.pilka@asconix.com"]
   spec.summary       = %q{Random HTTP User-Agent string generator}
