@@ -36,23 +36,34 @@ And then execute:
 
 Or install it manually:
 
-    $ gem install user_agent_randomizer
+    $ gem install user-agent-randomizer
 
 ## Usage
 
 The usage is pretty simple. You can fetch a random HTTP User-Agent string from the entire pool as well as one from a specified category (see the list above):
 
-```ruby
-require 'user-agent-randomizer'
+Open an IRB and require the gem first of all:
 
-# Fetch a random HTTP User-Agent string from the entire pool
-UserAgentRandomizer::UserAgent.new
-# => "AppEngine-Google; (+http://code.google.com/appengine; appid: longbows-hideout)"
+    irb> require 'user_agent_randomizer'
+    # => true
 
-# Fetch a random HTTP User-Agent for a desktop browser
-UserAgentRandomizer::UserAgent.new("desktop_browser")
-# => "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Iron/0.2.152.0 Safari/12733120.525"
-```
+Fetch a random HTTP User-Agent string from the entire pool:
+
+    irb> ua_all = UserAgentRandomizer::UserAgent.fetch
+    # => #<UserAgentRandomizer::UserAgent:0x007fe1f30a6658 @type="crawler", @string="CatchBot/1.0;  http://www.catchbot.com">
+
+Fetch a random HTTP User-Agent for a desktop browser:
+
+    irb> ua_desktop = UserAgentRandomizer::UserAgent.fetch(type: "desktop_browser")
+    # => #<UserAgentRandomizer::UserAgent:0x007fe1f2282b58 @type="desktop_browser", @string="Mozilla/4.6 [en] (WinNT; I)">
+
+Retrieve the type and the string from the objects above:
+
+    irb> puts "UA general -> type: '#{ua_all.type}', string: '#{ua_all.string}'"
+    # => "UA general -> type: 'crawler', string: 'CatchBot/1.0;  http://www.catchbot.com'"
+
+    irb> puts "UA desktop browser -> type: '#{ua_desktop.type}', string: '#{ua_desktop.string}'"
+    # => "UA desktop browser -> type: 'desktop_browser', string: 'Mozilla/4.6 [en] (WinNT; I)'"
 
 ## Contributing
 
